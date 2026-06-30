@@ -10,8 +10,9 @@ import { Confianca } from "./components/Confianca";
 import { Faq } from "./components/Faq";
 import { Footer } from "./components/Footer";
 import { WhatsAppFloating } from "./components/WhatsAppFloating";
+import { CartProvider } from "./lib/cart";
 
-function App() {
+function AppInner() {
   const [products, setProducts] = useState<Product[]>([]);
   const [content, setContent] = useState<StoreContent>(null);
   const [loading, setLoading] = useState(true);
@@ -50,6 +51,14 @@ function App() {
       <Footer content={content} />
       <WhatsAppFloating content={content} />
     </>
+  );
+}
+
+function App() {
+  return (
+    <CartProvider>
+      <AppInner />
+    </CartProvider>
   );
 }
 
