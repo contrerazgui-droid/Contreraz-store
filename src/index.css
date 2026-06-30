@@ -1,0 +1,75 @@
+:root {
+  --azul: #3B5A82;
+  --azul-claro: #8DA4BF;
+  --terracota: #DC864D;
+  --dourado: #CF8E28;
+  --areia: #DDC2A2;
+  --bg: #F6F3ED;
+  --texto: #252525;
+
+  --font-signature: "Pinyon Script", cursive;
+  --font-display: "Fraunces", serif;
+  --font-ui: "Inter", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--texto);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 18px;
+  }
+
+  .product-modal-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vitrine-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .whatsapp-floating {
+    display: inline-block !important;
+  }
+
+  .header-nav {
+    display: none !important;
+  }
+}
