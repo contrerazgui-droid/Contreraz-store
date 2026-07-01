@@ -1,9 +1,9 @@
 const PONTOS = [
-  { titulo: "Clássica sem ser óbvia.", desc: "A riviera existe há décadas mas nunca pareceu datada. Ela é o equilíbrio entre o que sempre funcionou e o que ainda vai funcionar." },
-  { titulo: "Unissex por natureza.", desc: "Não foi pensada pra um gênero específico — foi pensada pra quem entende que uma peça boa não precisa de rótulo." },
-  { titulo: "Funciona em qualquer contexto.", desc: "No trabalho, no dia casual, na noite. Uma riviera eleva o look sem chamar mais atenção do que você." },
-  { titulo: "Eleva o básico sem exagerar.", desc: "Com camiseta branca ou camisa aberta, ela é a diferença entre um look completo e um look esquecível." },
-  { titulo: "A primeira assinatura visual da Contreraz.", desc: "Escolhemos rivieras porque acreditamos que a joia certa faz a pessoa ser lembrada — não a joia." },
+  { titulo: "Âmbar, ouro e luz dura.", desc: "Uma paleta quente, mediterrânea, feita para sair do óbvio sem perder sofisticação." },
+  { titulo: "Presença sem volume.", desc: "A peça aparece pelo acabamento, pela cor e pela intenção. Não precisa disputar atenção." },
+  { titulo: "Unissex por temperamento.", desc: "A Contreraz não separa estilo por gênero. A peça certa encontra quem sabe usar." },
+  { titulo: "Direta, intensa e versátil.", desc: "Funciona no pulso de quem usa terno, camisa aberta, camiseta branca ou linho cru. Não depende de gênero. Depende de atitude." },
+  { titulo: "Nada entra por acaso.", desc: "Cada peça passa por escolha estética, análise de acabamento e coerência com a identidade da marca antes de chegar à curadoria." },
 ];
 
 export function PorQueRiviera() {
@@ -12,7 +12,7 @@ export function PorQueRiviera() {
       <div className="container">
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <span className="eyebrow" style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
-            Rivieras
+            Curadoria
           </span>
           <h2 style={{
             fontFamily: "var(--font-display)",
@@ -20,11 +20,14 @@ export function PorQueRiviera() {
             fontStyle: "italic",
             fontSize: "clamp(28px, 4vw, 40px)",
             color: "var(--azul)",
-            margin: 0,
+            margin: "0 0 16px",
             lineHeight: 1.2,
           }}>
-            Por que riviera?
+            A primeira peça não foi escolhida por acaso.
           </h2>
+          <p style={{ fontSize: 15, color: "#666", maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
+            A riviera abre a curadoria Contreraz porque traduz bem o que a marca procura: uma peça direta, intensa e com temperamento próprio.
+          </p>
         </div>
 
         <div className="pqr-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>

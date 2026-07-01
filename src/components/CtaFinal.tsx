@@ -24,7 +24,7 @@ export function CtaFinal({ content }: { content: StoreContent }) {
 
       <div className="container" style={{ position: "relative", zIndex: 1, maxWidth: 600 }}>
         <span className="eyebrow eyebrow-light" style={{ marginBottom: 24, display: "flex", justifyContent: "center" }}>
-          Primeira curadoria · Unidades limitadas
+          Curadoria limitada · Atendimento direto
         </span>
         <h2 style={{
           fontFamily: "var(--font-display)",
@@ -35,7 +35,7 @@ export function CtaFinal({ content }: { content: StoreContent }) {
           margin: "0 0 20px",
           lineHeight: 1.15,
         }}>
-          Sua primeira peça de presença começa aqui.
+          Escolha com intenção. Use sem pedir licença.
         </h2>
         <p style={{
           fontSize: 15,
@@ -43,13 +43,13 @@ export function CtaFinal({ content }: { content: StoreContent }) {
           lineHeight: 1.7,
           margin: "0 0 40px",
         }}>
-          Escolha sua riviera e fale direto com a Contreraz para confirmar disponibilidade.
+          Veja as rivieras disponíveis e fale com a Contreraz para confirmar tamanho, banho e disponibilidade.
         </p>
 
         <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="#vitrine" className="btn-primary">Ver catálogo</a>
+          <a href="#vitrine" className="btn-primary">Ver peças disponíveis</a>
           <a href={waUrl} target="_blank" rel="noreferrer" className="btn-outline-light">
-            Reservar no WhatsApp
+            Consultar no WhatsApp
           </a>
         </div>
       </div>

@@ -2,7 +2,7 @@ import type { StoreContent } from "../lib/types";
 
 export function Manifesto({ content }: { content: StoreContent }) {
   const text = content?.manifestoText ||
-    "A Contreraz nasce para quem entende que estilo não precisa ser alto para ser notado. A primeira coleção começa pelas rivieras: peças clássicas, unissex e silenciosamente marcantes.";
+    "É sobrenome. Herança da bisavó espanhola. Um ponto de partida que não pode ser replicado por tendência, algoritmo ou concorrência. A marca carrega essa raiz em cada escolha: da paleta quente às peças selecionadas, do acabamento ao modo como ocupa presença.";
 
   return (
     <section style={{ padding: "96px 24px", background: "var(--azul)" }}>
@@ -20,7 +20,7 @@ export function Manifesto({ content }: { content: StoreContent }) {
           margin: "0 0 24px",
           letterSpacing: "-0.01em",
         }}>
-          A presença mora nos detalhes.
+          Contreraz não é um nome inventado.
         </h2>
         <p style={{
           fontSize: 16,

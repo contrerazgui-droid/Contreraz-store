@@ -2,10 +2,10 @@ import type { StoreContent } from "../lib/types";
 import { whatsappLink } from "../lib/api";
 
 export function Hero({ content }: { content: StoreContent }) {
-  const headline = content?.heroHeadline || "Joias de presença para quem não precisa gritar.";
-  const sub = content?.heroSubheadline || "Rivieras unissex em curadoria limitada, feitas para elevar o básico sem exagero.";
-  const ctaPrimary = content?.heroCtaPrimary || "Conhecer rivieras";
-  const ctaSecondary = content?.heroCtaSecondary || "Falar no WhatsApp";
+  const headline = content?.heroHeadline || "Você já sabia quem era. Agora tem a peça certa.";
+  const sub = content?.heroSubheadline || "Contreraz é uma curadoria de acessórios premium com identidade mediterrânea. Semijoias selecionadas para pessoas autênticas, intensas e difíceis de copiar.";
+  const ctaPrimary = content?.heroCtaPrimary || "Ver curadoria";
+  const ctaSecondary = content?.heroCtaSecondary || "Falar com a Contreraz";
   const heroImage = content?.ogImageUrl;
   const logoUrl = content?.logoUrl;
 
@@ -86,7 +86,7 @@ export function Hero({ content }: { content: StoreContent }) {
         backdropFilter: "blur(4px)",
       }}>
         <div className="container hero-strip" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "16px 24px", flexWrap: "wrap" }}>
-          {["Rivieras", "Curadoria limitada", "Atendimento direto"].map((item, i) => (
+          {["Curadoria mediterrânea", "Semijoias selecionadas", "Atendimento direto"].map((item, i) => (
             <p key={i} style={{ margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
               {item}
             </p>

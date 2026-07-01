@@ -3,10 +3,10 @@ import type { StoreContent } from "../lib/types";
 const ICONS = ["◈", "◎", "◇", "◉"];
 
 const DEFAULT_ITEMS = [
-  "Curadoria limitada",
-  "Peças conferidas uma a uma",
-  "Atendimento direto com a marca",
-  "Envio combinado com segurança",
+  "Semijoias selecionadas",
+  "Curadoria em pequenos lotes",
+  "Atendimento direto",
+  "Conferência antes do envio",
 ];
 
 export function Confianca({ content }: { content: StoreContent }) {
@@ -27,7 +27,7 @@ export function Confianca({ content }: { content: StoreContent }) {
             color: "#fff",
             margin: 0,
           }}>
-            Cada peça entregue com intenção.
+            Curadoria também é cuidado.
           </h2>
         </div>
 
@@ -47,7 +47,7 @@ export function Confianca({ content }: { content: StoreContent }) {
 
         <div style={{ textAlign: "center", maxWidth: 520, margin: "0 auto" }}>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.5)", lineHeight: 1.7, margin: 0 }}>
-            Cada peça passa por conferência visual antes do envio. O atendimento é direto para garantir tamanho, disponibilidade e escolha certa.
+            Antes do envio, confirmamos disponibilidade, tamanho, banho, acabamento e cuidados da peça. O atendimento é direto para que a escolha seja clara antes da compra.
           </p>
         </div>
       </div>
