@@ -28,8 +28,14 @@ function AppInner() {
 
   useEffect(() => {
     if (content?.seoTitle) document.title = content.seoTitle;
-    else document.title = "Contreraz · Rivieras e joias de presença";
+    else document.title = "Contreraz — Rivieras e semijoias de identidade mediterrânea";
   }, [content]);
+
+  useEffect(() => {
+    if (!content?.logoUrl) return;
+    const link = document.querySelector<HTMLLinkElement>("link[rel='icon']");
+    if (link) link.href = content.logoUrl;
+  }, [content?.logoUrl]);
 
   if (loading) {
     return (
