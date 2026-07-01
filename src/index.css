@@ -1,25 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
   --azul: #3B5A82;
+  --azul-deep: #1e2d42;
   --azul-claro: #8DA4BF;
   --terracota: #DC864D;
   --dourado: #CF8E28;
   --areia: #DDC2A2;
   --bg: #F6F3ED;
   --texto: #252525;
+  --linha: rgba(37,37,37,0.1);
 
   --font-signature: "Pinyon Script", cursive;
   --font-display: "Fraunces", serif;
   --font-ui: "Inter", system-ui, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
 
 body {
   background: var(--bg);
@@ -28,23 +26,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-#root {
-  min-height: 100vh;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
-
-a {
-  color: inherit;
-}
+#root { min-height: 100vh; }
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; }
 
 .container {
   max-width: 1120px;
@@ -52,24 +37,86 @@ a {
   padding: 0 24px;
 }
 
+/* Botões de marca */
+.btn-primary {
+  display: inline-block;
+  padding: 14px 28px;
+  background: var(--terracota);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 3px;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover { opacity: 0.88; }
+
+.btn-outline-light {
+  display: inline-block;
+  padding: 13px 28px;
+  background: transparent;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  border-radius: 3px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-outline-light:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+.btn-outline-dark {
+  display: inline-block;
+  padding: 13px 28px;
+  background: transparent;
+  color: var(--azul);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid var(--azul);
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+.btn-outline-dark:hover { background: var(--azul); color: #fff; }
+
+/* Eyebrow label */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dourado);
+}
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.eyebrow-light { color: rgba(255,255,255,0.65); }
+
 @media (max-width: 640px) {
-  .container {
-    padding: 0 18px;
-  }
-
-  .product-modal-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .vitrine-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  .whatsapp-floating {
-    display: inline-block !important;
-  }
-
-  .header-nav {
-    display: none !important;
-  }
+  .container { padding: 0 18px; }
+  .product-modal-grid { grid-template-columns: 1fr !important; }
+  .vitrine-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .whatsapp-floating { display: inline-block !important; }
+  .header-nav { display: none !important; }
+  .hero-strip { flex-direction: column !important; gap: 12px !important; }
+  .pqr-grid { grid-template-columns: 1fr !important; }
+  .confianca-grid { grid-template-columns: 1fr !important; }
 }

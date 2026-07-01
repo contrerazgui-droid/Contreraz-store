@@ -3,102 +3,75 @@ import { useCart } from "../lib/cart";
 import { whatsappLink } from "../lib/api";
 import type { StoreContent } from "../lib/types";
 
-const PAYMENT_OPTIONS = [
-  { value: "pix", label: "Pix" },
-  { value: "cartao", label: "Cartão de crédito" },
-  { value: "dinheiro", label: "Dinheiro" },
-  { value: "combinar", label: "A combinar" },
-];
-
 const fieldStyle: React.CSSProperties = {
-  width: "100%", padding: "11px 14px", borderRadius: 10, border: "1px solid rgba(37,37,37,0.15)",
-  fontSize: 14, fontFamily: "var(--font-ui)", marginTop: 4,
+  width: "100%", padding: "12px 14px",
+  border: "1px solid rgba(37,37,37,0.15)",
+  fontSize: 14, fontFamily: "var(--font-ui)",
+  marginTop: 4, outline: "none",
+  borderRadius: 3,
+  background: "#fff",
 };
-const labelStyle: React.CSSProperties = { fontSize: 12, fontWeight: 600, color: "#555" };
+const labelStyle: React.CSSProperties = { fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#888" };
 
 export function CheckoutForm({ content, onClose, onDone }: { content: StoreContent; onClose: () => void; onDone: () => void }) {
   const { items, total, clear } = useCart();
-  const [form, setForm] = useState({
-    name: "", phone: "", city: "", address: "", payment: "pix", notes: "",
-  });
-
-  function set<K extends keyof typeof form>(key: K, value: string) {
-    setForm(f => ({ ...f, [key]: value }));
-  }
+  const [form, setForm] = useState({ name: "", city: "", notes: "" });
+  const set = <K extends keyof typeof form>(k: K, v: string) => setForm(f => ({ ...f, [k]: v }));
+  const valid = form.name.trim() && form.city.trim();
 
   function buildMessage() {
     const lines: string[] = [];
-    lines.push("Olá! Quero finalizar uma compra na Contreraz:");
+    lines.push("Olá! Quero finalizar um pedido na Contreraz:");
     lines.push("");
-    lines.push("🛍️ Peças:");
+    lines.push("🛍️ Peças selecionadas:");
     items.forEach(i => {
       lines.push(`• ${i.title} (x${i.qty}) — ${(i.salePrice * i.qty).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`);
     });
     lines.push("");
     lines.push(`Total: ${total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`);
     lines.push("");
-    lines.push("📋 Dados:");
     lines.push(`Nome: ${form.name}`);
     lines.push(`Cidade: ${form.city}`);
-    lines.push(`Endereço: ${form.address}`);
-    lines.push(`Forma de pagamento: ${PAYMENT_OPTIONS.find(p => p.value === form.payment)?.label ?? form.payment}`);
-    if (form.notes) lines.push(`Observações: ${form.notes}`);
+    if (form.notes) lines.push(`Obs: ${form.notes}`);
     return lines.join("\n");
   }
-
-  const valid = form.name.trim() && form.city.trim() && form.address.trim();
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!valid) return;
-    const url = whatsappLink(content?.whatsappNumber, buildMessage());
-    window.open(url, "_blank");
+    window.open(whatsappLink(content?.whatsappNumber, buildMessage()), "_blank");
     clear();
     onDone();
   }
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 80, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
-      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(37,37,37,0.6)" }} />
+      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(10,10,18,0.7)" }} />
       <form
         onSubmit={handleSubmit}
-        style={{
-          position: "relative", background: "#fff", borderRadius: 18, padding: 28,
-          maxWidth: 440, width: "100%", maxHeight: "90vh", overflowY: "auto",
-        }}
+        style={{ position: "relative", background: "#fff", padding: "36px 32px", maxWidth: 400, width: "100%", maxHeight: "90vh", overflowY: "auto" }}
       >
-        <button type="button" onClick={onClose} style={{ position: "absolute", top: 16, right: 16, border: "none", background: "none", fontSize: 18, color: "#999" }}>✕</button>
-        <h3 style={{ fontFamily: "var(--font-display)", fontSize: 22, color: "var(--azul)", margin: "0 0 4px" }}>Finalizar pedido</h3>
-        <p style={{ fontSize: 13, color: "#777", margin: "0 0 20px" }}>
-          Preencha seus dados — você vai confirmar e finalizar a compra direto no WhatsApp.
+        <button type="button" onClick={onClose} style={{ position: "absolute", top: 16, right: 16, border: "none", background: "none", fontSize: 18, color: "#bbb" }}>✕</button>
+
+        <h3 style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontWeight: 400, fontSize: 24, color: "var(--azul)", margin: "0 0 6px" }}>
+          Finalizar pedido
+        </h3>
+        <p style={{ fontSize: 13, color: "#999", margin: "0 0 28px", lineHeight: 1.5 }}>
+          Deixe seu nome e cidade — o restante (tamanho, endereço, pagamento) acertamos direto no WhatsApp.
         </p>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <label style={labelStyle}>
-            Nome completo *
-            <input style={fieldStyle} value={form.name} onChange={e => set("name", e.target.value)} required />
-          </label>
-          <label style={labelStyle}>
-            WhatsApp
-            <input style={fieldStyle} value={form.phone} onChange={e => set("phone", e.target.value)} placeholder="(11) 99999-9999" />
+            Nome *
+            <input style={fieldStyle} value={form.name} onChange={e => set("name", e.target.value)} placeholder="Seu nome" required autoFocus />
           </label>
           <label style={labelStyle}>
             Cidade *
-            <input style={fieldStyle} value={form.city} onChange={e => set("city", e.target.value)} required />
+            <input style={fieldStyle} value={form.city} onChange={e => set("city", e.target.value)} placeholder="Sua cidade" required />
           </label>
           <label style={labelStyle}>
-            Endereço completo *
-            <input style={fieldStyle} value={form.address} onChange={e => set("address", e.target.value)} placeholder="Rua, número, bairro, CEP" required />
-          </label>
-          <label style={labelStyle}>
-            Forma de pagamento
-            <select style={fieldStyle} value={form.payment} onChange={e => set("payment", e.target.value)}>
-              {PAYMENT_OPTIONS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
-            </select>
-          </label>
-          <label style={labelStyle}>
-            Observações
-            <textarea style={{ ...fieldStyle, resize: "none" }} rows={2} value={form.notes} onChange={e => set("notes", e.target.value)} placeholder="Tamanho, preferências, etc." />
+            Observação
+            <textarea style={{ ...fieldStyle, resize: "none" }} rows={2} value={form.notes} onChange={e => set("notes", e.target.value)} placeholder="Tamanho, dúvidas, preferências..." />
           </label>
         </div>
 
@@ -106,11 +79,14 @@ export function CheckoutForm({ content, onClose, onDone }: { content: StoreConte
           type="submit"
           disabled={!valid}
           style={{
-            marginTop: 22, width: "100%", padding: "14px 24px", borderRadius: 999,
-            background: valid ? "#25D366" : "#ccc", color: "#fff", fontWeight: 600, fontSize: 14, border: "none",
+            marginTop: 24, width: "100%", padding: "14px 24px",
+            background: valid ? "var(--azul)" : "#ccc",
+            color: "#fff", fontWeight: 600, fontSize: 13,
+            letterSpacing: "0.08em", textTransform: "uppercase",
+            border: "none", borderRadius: 3,
           }}
         >
-          Finalizar no WhatsApp
+          Reservar no WhatsApp
         </button>
       </form>
     </div>

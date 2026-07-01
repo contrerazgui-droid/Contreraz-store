@@ -7,21 +7,32 @@ export function Vitrine({ products, content }: { products: Product[]; content: S
   const [selected, setSelected] = useState<Product | null>(null);
 
   return (
-    <section id="vitrine" style={{ padding: "72px 24px", background: "var(--bg)" }}>
+    <section id="vitrine" style={{ padding: "88px 24px", background: "#fff" }}>
       <div className="container">
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <p style={{ fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: "var(--dourado)", fontWeight: 600, margin: "0 0 8px" }}>
+        <div style={{ textAlign: "center", marginBottom: 52 }}>
+          <span className="eyebrow" style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
             Primeira coleção
+          </span>
+          <h2 style={{
+            fontFamily: "var(--font-display)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            fontSize: "clamp(28px, 4vw, 40px)",
+            color: "var(--azul)",
+            margin: "0 0 12px",
+            lineHeight: 1.2,
+          }}>
+            Rivieras Signature
+          </h2>
+          <p style={{ fontSize: 14, color: "#999", maxWidth: 400, margin: "0 auto" }}>
+            Cada peça é nomeada e numerada. Curadoria limitada — confirme disponibilidade no WhatsApp.
           </p>
-          <h2 style={{ fontFamily: "var(--font-display)", fontSize: 30, color: "var(--azul)", margin: 0 }}>Rivieras</h2>
         </div>
 
         {products.length === 0 ? (
-          <p style={{ textAlign: "center", color: "#888", fontSize: 14 }}>
-            Em breve, novas peças por aqui.
-          </p>
+          <p style={{ textAlign: "center", color: "#bbb", fontSize: 14 }}>Em breve, novas peças por aqui.</p>
         ) : (
-          <div className="vitrine-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }}>
+          <div className="vitrine-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
             {products.map(p => (
               <ProductCard key={p.id} product={p} onClick={() => setSelected(p)} />
             ))}

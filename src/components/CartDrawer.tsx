@@ -11,37 +11,51 @@ export function CartDrawer({ open, onClose, content }: { open: boolean; onClose:
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 70, display: "flex", justifyContent: "flex-end" }}>
-      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(37,37,37,0.55)" }} />
-      <div
-        style={{
-          position: "relative", width: "min(420px, 100%)", height: "100%", background: "#fff",
-          display: "flex", flexDirection: "column", boxShadow: "-8px 0 24px rgba(0,0,0,0.15)",
-        }}
-      >
-        <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(37,37,37,0.1)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <h3 style={{ fontFamily: "var(--font-display)", fontSize: 20, color: "var(--azul)", margin: 0 }}>Sua sacola</h3>
-          <button onClick={onClose} style={{ border: "none", background: "none", fontSize: 20, color: "#999" }}>✕</button>
+      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(10,10,18,0.6)" }} />
+      <div style={{
+        position: "relative", width: "min(400px, 100%)", height: "100%", background: "#fff",
+        display: "flex", flexDirection: "column", boxShadow: "-12px 0 40px rgba(0,0,0,0.18)",
+      }}>
+        <div style={{ padding: "22px 24px", borderBottom: "1px solid var(--linha)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <h3 style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontWeight: 400, fontSize: 20, color: "var(--azul)", margin: 0 }}>
+              Sua seleção
+            </h3>
+            {items.length > 0 && (
+              <p style={{ fontSize: 12, color: "#aaa", margin: "2px 0 0" }}>{items.length} {items.length === 1 ? "peça" : "peças"}</p>
+            )}
+          </div>
+          <button onClick={onClose} style={{ border: "none", background: "none", fontSize: 20, color: "#bbb" }}>✕</button>
         </div>
 
-        <div style={{ flex: 1, overflowY: "auto", padding: "12px 24px" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "8px 24px" }}>
           {items.length === 0 ? (
-            <p style={{ color: "#888", fontSize: 14, textAlign: "center", marginTop: 40 }}>Sua sacola está vazia.</p>
+            <div style={{ textAlign: "center", paddingTop: 60 }}>
+              <p style={{ color: "#bbb", fontSize: 14 }}>Nenhuma peça selecionada.</p>
+              <button onClick={onClose} style={{ marginTop: 12, fontSize: 13, color: "var(--azul)", background: "none", border: "none", textDecoration: "underline" }}>
+                Ver catálogo
+              </button>
+            </div>
           ) : (
             items.map(item => (
-              <div key={item.productId} style={{ display: "flex", gap: 12, padding: "14px 0", borderBottom: "1px solid rgba(37,37,37,0.06)" }}>
-                <div style={{ width: 56, height: 56, borderRadius: 10, overflow: "hidden", background: "var(--areia)", flexShrink: 0 }}>
+              <div key={item.productId} style={{ display: "flex", gap: 14, padding: "16px 0", borderBottom: "1px solid var(--linha)" }}>
+                <div style={{ width: 60, height: 60, overflow: "hidden", background: "var(--bg)", flexShrink: 0 }}>
                   {item.image && <img src={item.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: "var(--font-display)", fontSize: 15, margin: "0 0 4px", color: "var(--texto)" }}>{item.title}</p>
-                  <p style={{ fontSize: 13, color: "var(--terracota)", fontWeight: 600, margin: "0 0 8px" }}>
+                  <p style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 15, margin: "0 0 4px", color: "var(--texto)", lineHeight: 1.3 }}>
+                    {item.title}
+                  </p>
+                  <p style={{ fontSize: 13, color: "var(--terracota)", fontWeight: 600, margin: "0 0 10px" }}>
                     {item.salePrice.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
                   </p>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <button onClick={() => setQty(item.productId, item.qty - 1)} style={{ width: 24, height: 24, border: "1px solid rgba(0,0,0,0.15)", borderRadius: 6, background: "#fff" }}>–</button>
-                    <span style={{ fontSize: 13, minWidth: 16, textAlign: "center" }}>{item.qty}</span>
-                    <button onClick={() => setQty(item.productId, item.qty + 1)} style={{ width: 24, height: 24, border: "1px solid rgba(0,0,0,0.15)", borderRadius: 6, background: "#fff" }}>+</button>
-                    <button onClick={() => remove(item.productId)} style={{ marginLeft: "auto", border: "none", background: "none", color: "#aaa", fontSize: 12, textDecoration: "underline" }}>remover</button>
+                    <button onClick={() => setQty(item.productId, item.qty - 1)} style={{ width: 26, height: 26, border: "1px solid rgba(0,0,0,0.15)", background: "#fff", fontWeight: 600 }}>–</button>
+                    <span style={{ fontSize: 13, minWidth: 18, textAlign: "center" }}>{item.qty}</span>
+                    <button onClick={() => setQty(item.productId, item.qty + 1)} style={{ width: 26, height: 26, border: "1px solid rgba(0,0,0,0.15)", background: "#fff", fontWeight: 600 }}>+</button>
+                    <button onClick={() => remove(item.productId)} style={{ marginLeft: "auto", border: "none", background: "none", color: "#ccc", fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>
+                      Remover
+                    </button>
                   </div>
                 </div>
               </div>
@@ -50,20 +64,28 @@ export function CartDrawer({ open, onClose, content }: { open: boolean; onClose:
         </div>
 
         {items.length > 0 && (
-          <div style={{ padding: "20px 24px", borderTop: "1px solid rgba(37,37,37,0.1)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontSize: 15, fontWeight: 600 }}>
-              <span>Total</span>
-              <span style={{ color: "var(--terracota)" }}>{total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+          <div style={{ padding: "20px 24px", borderTop: "1px solid var(--linha)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+              <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "#888" }}>Total estimado</span>
+              <span style={{ fontSize: 16, fontWeight: 700, color: "var(--terracota)" }}>
+                {total.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+              </span>
             </div>
             <button
               onClick={() => setCheckout(true)}
               style={{
-                width: "100%", padding: "14px 24px", borderRadius: 999, background: "var(--azul)",
-                color: "#fff", fontWeight: 600, fontSize: 14, border: "none",
+                width: "100%", padding: "14px 24px",
+                background: "var(--azul)", color: "#fff",
+                fontWeight: 600, fontSize: 13,
+                letterSpacing: "0.08em", textTransform: "uppercase",
+                border: "none", borderRadius: 3,
               }}
             >
-              Finalizar pedido
+              Reservar no WhatsApp
             </button>
+            <p style={{ fontSize: 11, color: "#bbb", textAlign: "center", marginTop: 10 }}>
+              Tamanho e envio confirmados no WhatsApp
+            </p>
           </div>
         )}
       </div>

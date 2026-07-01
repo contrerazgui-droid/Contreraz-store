@@ -1,28 +1,44 @@
 import type { StoreContent } from "../lib/types";
 
-const DEFAULT_STEPS = ["Escolha a peça.", "Confirme disponibilidade e tamanho.", "Finalize pelo WhatsApp."];
+const DEFAULT_STEPS = [
+  "Escolha a peça no catálogo e clique em Consultar.",
+  "Confirme disponibilidade, tamanho e banho diretamente no WhatsApp.",
+  "Acerte o pagamento e envio — e receba sua peça com rastreio.",
+];
 
 export function ComoComprar({ content }: { content: StoreContent }) {
   const steps = content?.howToBuySteps?.length ? content.howToBuySteps : DEFAULT_STEPS;
 
   return (
-    <section id="como-comprar" style={{ padding: "64px 24px", background: "#fff" }}>
-      <div className="container" style={{ maxWidth: 760 }}>
-        <h2 style={{ fontFamily: "var(--font-display)", fontSize: 26, color: "var(--azul)", textAlign: "center", margin: "0 0 40px" }}>
-          Como comprar
-        </h2>
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${steps.length}, 1fr)`, gap: 24 }} className="vitrine-grid">
+    <section id="como-comprar" style={{ padding: "80px 24px", background: "var(--bg)" }}>
+      <div className="container" style={{ maxWidth: 800 }}>
+        <div style={{ textAlign: "center", marginBottom: 52 }}>
+          <span className="eyebrow" style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
+            Processo
+          </span>
+          <h2 style={{
+            fontFamily: "var(--font-display)",
+            fontStyle: "italic",
+            fontWeight: 400,
+            fontSize: "clamp(26px, 3.5vw, 36px)",
+            color: "var(--azul)",
+            margin: 0,
+          }}>
+            Como comprar
+          </h2>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${steps.length}, 1fr)`, gap: 0 }} className="vitrine-grid">
           {steps.map((step, i) => (
-            <div key={i} style={{ textAlign: "center" }}>
-              <div
-                style={{
-                  width: 36, height: 36, borderRadius: "50%", background: "var(--terracota)", color: "#fff",
-                  display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, margin: "0 auto 14px",
-                }}
-              >
-                {i + 1}
-              </div>
-              <p style={{ fontSize: 14, color: "var(--texto)", lineHeight: 1.5, margin: 0 }}>{step}</p>
+            <div key={i} style={{
+              padding: "36px 28px",
+              background: i % 2 === 0 ? "#fff" : "transparent",
+              borderTop: "2px solid var(--areia)",
+            }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--terracota)", margin: "0 0 14px" }}>
+                Passo {String(i + 1).padStart(2, "0")}
+              </p>
+              <p style={{ fontSize: 15, color: "var(--texto)", lineHeight: 1.65, margin: 0 }}>{step}</p>
             </div>
           ))}
         </div>
