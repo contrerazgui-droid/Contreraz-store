@@ -3,8 +3,14 @@ import type { Product, StoreContent } from "../lib/types";
 import { ProductCard } from "./ProductCard";
 import { ProductModal } from "./ProductModal";
 
+const INITIAL_COUNT = 9;
+
 export function Vitrine({ products, content }: { products: Product[]; content: StoreContent }) {
   const [selected, setSelected] = useState<Product | null>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const visible = expanded ? products : products.slice(0, INITIAL_COUNT);
+  const hasMore = products.length > INITIAL_COUNT;
 
   return (
     <section id="vitrine" style={{ padding: "88px 24px", background: "#fff" }}>
@@ -32,11 +38,45 @@ export function Vitrine({ products, content }: { products: Product[]; content: S
         {products.length === 0 ? (
           <p style={{ textAlign: "center", color: "#bbb", fontSize: 14 }}>Em breve, novas peças por aqui.</p>
         ) : (
-          <div className="vitrine-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
-            {products.map(p => (
-              <ProductCard key={p.id} product={p} onClick={() => setSelected(p)} />
-            ))}
-          </div>
+          <>
+            <div className="vitrine-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}>
+              {visible.map(p => (
+                <ProductCard key={p.id} product={p} onClick={() => setSelected(p)} />
+              ))}
+            </div>
+
+            {hasMore && (
+              <div style={{ textAlign: "center", marginTop: 48 }}>
+                {!expanded ? (
+                  <>
+                    <p style={{ fontSize: 13, color: "#bbb", marginBottom: 16 }}>
+                      Mostrando {INITIAL_COUNT} de {products.length} peças
+                    </p>
+                    <button
+                      onClick={() => setExpanded(true)}
+                      className="btn-outline-dark"
+                    >
+                      Ver toda a curadoria
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setExpanded(false);
+                      document.getElementById("vitrine")?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    style={{
+                      fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
+                      textTransform: "uppercase", color: "#bbb",
+                      background: "none", border: "none", cursor: "pointer",
+                    }}
+                  >
+                    Ver menos ↑
+                  </button>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
 
