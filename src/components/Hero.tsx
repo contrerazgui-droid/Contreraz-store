@@ -7,37 +7,45 @@ export function Hero({ content }: { content: StoreContent }) {
   const ctaPrimary = content?.heroCtaPrimary || "Conhecer rivieras";
   const ctaSecondary = content?.heroCtaSecondary || "Falar no WhatsApp";
   const heroImage = content?.ogImageUrl;
+  const logoUrl = content?.logoUrl;
 
   const bgStyle = heroImage
     ? { backgroundImage: `url(${heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }
-    : { background: "linear-gradient(135deg, #1e2d42 0%, #2c4264 50%, #1a2535 100%)" };
+    : { background: "linear-gradient(160deg, #1e2d42 0%, #2a3f5e 55%, #1a2535 100%)" };
 
   return (
-    <section id="topo" style={{ position: "relative", minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", ...bgStyle }}>
+    <section id="topo" style={{ position: "relative", minHeight: "92vh", display: "flex", flexDirection: "column", justifyContent: "flex-end", ...bgStyle }}>
       {/* overlay */}
-      <div style={{ position: "absolute", inset: 0, background: heroImage ? "rgba(10,10,18,0.72)" : "rgba(10,10,18,0.45)" }} />
+      <div style={{ position: "absolute", inset: 0, background: heroImage ? "rgba(10,10,18,0.72)" : "rgba(10,10,18,0.35)" }} />
 
-      {/* decorative signature mark */}
+      {/* logo centralizada no topo */}
       <div style={{
-        position: "absolute", top: 60, right: "8%",
-        fontFamily: "var(--font-signature)", fontSize: 96, color: "rgba(255,255,255,0.05)",
-        pointerEvents: "none", userSelect: "none", lineHeight: 1,
+        position: "absolute", top: 0, left: 0, right: 0, zIndex: 2,
+        display: "flex", justifyContent: "center", alignItems: "center",
+        paddingTop: 48,
+        pointerEvents: "none",
       }}>
-        Contreraz
+        {logoUrl ? (
+          <img src={logoUrl} alt="Contreraz" style={{ height: 80, opacity: 0.9 }} />
+        ) : (
+          <p style={{
+            fontFamily: "var(--font-signature)", fontSize: 52,
+            color: "rgba(255,255,255,0.22)", margin: 0, lineHeight: 1,
+          }}>
+            Contreraz
+          </p>
+        )}
       </div>
 
-      {/* content */}
+      {/* conteúdo centralizado */}
       <div className="container" style={{ position: "relative", zIndex: 1, paddingBottom: 80, paddingTop: 120 }}>
-        <div style={{ maxWidth: 680 }}>
-          <span className="eyebrow eyebrow-light" style={{ marginBottom: 24, display: "flex" }}>
-            Rivieras · Contreraz
-          </span>
+        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
 
           <h1 style={{
             fontFamily: "var(--font-display)",
             fontWeight: 400,
             fontStyle: "italic",
-            fontSize: "clamp(36px, 5.5vw, 62px)",
+            fontSize: "clamp(36px, 5.5vw, 64px)",
             lineHeight: 1.1,
             color: "#fff",
             margin: "0 0 20px",
@@ -48,15 +56,15 @@ export function Hero({ content }: { content: StoreContent }) {
 
           <p style={{
             fontSize: "clamp(15px, 2vw, 17px)",
-            lineHeight: 1.65,
-            color: "rgba(255,255,255,0.72)",
-            maxWidth: 500,
-            margin: "0 0 40px",
+            lineHeight: 1.7,
+            color: "rgba(255,255,255,0.65)",
+            maxWidth: 480,
+            margin: "0 auto 40px",
           }}>
             {sub}
           </p>
 
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
             <a href="#vitrine" className="btn-primary">{ctaPrimary}</a>
             <a
               href={whatsappLink(content?.whatsappNumber, content?.whatsappDefaultMessage || "Olá, quero conhecer as rivieras da Contreraz.")}
@@ -73,13 +81,13 @@ export function Hero({ content }: { content: StoreContent }) {
       {/* brand strip */}
       <div style={{
         position: "relative", zIndex: 1,
-        borderTop: "1px solid rgba(255,255,255,0.12)",
+        borderTop: "1px solid rgba(255,255,255,0.1)",
         background: "rgba(10,10,18,0.4)",
         backdropFilter: "blur(4px)",
       }}>
-        <div className="container hero-strip" style={{ display: "flex", alignItems: "center", gap: 32, padding: "18px 24px", flexWrap: "wrap" }}>
+        <div className="container hero-strip" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 40, padding: "16px 24px", flexWrap: "wrap" }}>
           {["Rivieras", "Curadoria limitada", "Atendimento direto"].map((item, i) => (
-            <p key={i} style={{ margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>
+            <p key={i} style={{ margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
               {item}
             </p>
           ))}
