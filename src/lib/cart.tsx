@@ -7,11 +7,22 @@ export type CartItem = {
   salePrice: number;
   image: string | null;
   qty: number;
+  variantLabel?: string;
+  size?: string;
+  finish?: string;
+  notes?: string;
+};
+
+type AddOptions = {
+  variantLabel?: string;
+  size?: string;
+  finish?: string;
+  notes?: string;
 };
 
 type CartContextValue = {
   items: CartItem[];
-  add: (product: Product) => void;
+  add: (product: Product, options?: AddOptions) => void;
   remove: (productId: number) => void;
   setQty: (productId: number, qty: number) => void;
   clear: () => void;
@@ -36,22 +47,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
-  function add(product: Product) {
+  function add(product: Product, options?: AddOptions) {
     setItems(prev => {
       const existing = prev.find(i => i.productId === product.id);
       if (existing) {
-        return prev.map(i => (i.productId === product.id ? { ...i, qty: i.qty + 1 } : i));
+        return prev.map(i => i.productId === product.id ? { ...i, qty: i.qty + 1 } : i);
       }
-      return [
-        ...prev,
-        {
-          productId: product.id,
-          title: product.pieceName || product.name,
-          salePrice: product.salePrice,
-          image: product.images[0] ?? null,
-          qty: 1,
-        },
-      ];
+      return [...prev, {
+        productId: product.id,
+        title: product.pieceName || product.name,
+        salePrice: product.salePrice,
+        image: product.images[0] ?? null,
+        qty: 1,
+        ...options,
+      }];
     });
   }
 
@@ -61,12 +70,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   function setQty(productId: number, qty: number) {
     if (qty < 1) return remove(productId);
-    setItems(prev => prev.map(i => (i.productId === productId ? { ...i, qty } : i)));
+    setItems(prev => prev.map(i => i.productId === productId ? { ...i, qty } : i));
   }
 
-  function clear() {
-    setItems([]);
-  }
+  function clear() { setItems([]); }
 
   const count = items.reduce((s, i) => s + i.qty, 0);
   const total = items.reduce((s, i) => s + i.qty * i.salePrice, 0);

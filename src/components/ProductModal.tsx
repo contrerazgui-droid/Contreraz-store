@@ -1,51 +1,88 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Product, StoreContent } from "../lib/types";
 import { useCart } from "../lib/cart";
 import { whatsappLink } from "../lib/api";
 
 export function ProductModal({ product, content, onClose }: { product: Product; content: StoreContent; onClose: () => void }) {
   const [activeImage, setActiveImage] = useState(0);
+  const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
   const { add, items } = useCart();
   const title = product.pieceName || product.name;
-  const images = product.images.length > 0 ? product.images : [null];
+  const images = product.images.length > 0 ? product.images : [];
   const inCart = items.some(i => i.productId === product.id);
 
-  const waMsg = `Olá! Quero reservar a peça *${title}* da Contreraz. Poderia me dar mais detalhes sobre disponibilidade e tamanho?`;
+  // scroll lock
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  // reset ao trocar produto
+  useEffect(() => { setActiveImage(0); setQty(1); setAdded(false); }, [product.id]);
+
+  // Esc para fechar
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  function handleAdd() {
+    for (let i = 0; i < qty; i++) add(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  }
+
+  const waMsg = `Olá! Tenho interesse na peça *${title}* da Contreraz. Poderia me informar sobre disponibilidade e tamanho?`;
   const waUrl = whatsappLink(content?.whatsappNumber, waMsg);
+  const subtitle = [product.material, product.stone].filter(Boolean).join(" · ");
 
   return (
     <div
       onClick={onClose}
-      style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(10,10,18,0.7)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
+      style={{ position: "fixed", inset: 0, zIndex: 50, background: "rgba(10,10,18,0.75)", display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" }}
     >
       <div
         onClick={e => e.stopPropagation()}
         className="product-modal-grid"
         style={{
-          background: "#fff",
-          maxWidth: 800,
-          width: "100%",
-          maxHeight: "92vh",
-          overflowY: "auto",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          background: "#fff", maxWidth: 860, width: "100%",
+          maxHeight: "94vh", overflowY: "auto",
+          display: "grid", gridTemplateColumns: "1.1fr 1fr",
+          position: "relative",
         }}
       >
-        {/* imagens */}
-        <div>
-          <div style={{ aspectRatio: "1 / 1", background: "var(--bg)", overflow: "hidden" }}>
+        {/* coluna: galeria */}
+        <div style={{ background: "var(--bg)" }}>
+          {/* imagem principal 3:4 */}
+          <div style={{ aspectRatio: "3 / 4", overflow: "hidden", width: "100%" }}>
             {images[activeImage] ? (
-              <img src={images[activeImage]!} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img
+                src={images[activeImage]}
+                alt={title}
+                style={{ width: "100%", height: "100%", objectFit: "cover", transition: "opacity 0.2s" }}
+              />
             ) : (
-              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-signature)", fontSize: 32, color: "rgba(59,90,130,0.3)" }}>
+              <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-signature)", fontSize: 36, color: "rgba(59,90,130,0.25)" }}>
                 Contreraz
               </div>
             )}
           </div>
-          {product.images.length > 1 && (
-            <div style={{ display: "flex", gap: 4, padding: 8, flexWrap: "wrap" }}>
-              {product.images.map((img, i) => (
-                <button key={img} onClick={() => setActiveImage(i)} style={{ width: 50, height: 50, overflow: "hidden", padding: 0, border: i === activeImage ? "2px solid var(--terracota)" : "1px solid rgba(0,0,0,0.1)" }}>
+          {/* thumbnails horizontais */}
+          {images.length > 1 && (
+            <div style={{ display: "flex", gap: 4, padding: "8px 8px 0", flexWrap: "wrap" }}>
+              {images.map((img, i) => (
+                <button
+                  key={img}
+                  onClick={() => setActiveImage(i)}
+                  style={{
+                    width: 56, height: 56, padding: 0, overflow: "hidden",
+                    border: i === activeImage ? "2px solid var(--terracota)" : "1px solid rgba(0,0,0,0.1)",
+                    background: "none", transition: "border-color 0.15s",
+                  }}
+                >
                   <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </button>
               ))}
@@ -53,83 +90,90 @@ export function ProductModal({ product, content, onClose }: { product: Product; 
           )}
         </div>
 
-        {/* info */}
-        <div style={{ padding: "32px 28px", display: "flex", flexDirection: "column" }}>
-          <button onClick={onClose} style={{ alignSelf: "flex-end", border: "none", background: "none", fontSize: 18, color: "#bbb", marginBottom: 8 }}>✕</button>
+        {/* coluna: info */}
+        <div style={{ padding: "32px 28px 28px", display: "flex", flexDirection: "column", gap: 0 }}>
+          <button onClick={onClose} style={{ position: "absolute", top: 14, right: 14, border: "none", background: "none", fontSize: 20, color: "#bbb", lineHeight: 1, padding: 4 }}>✕</button>
 
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--dourado)", margin: "0 0 8px" }}>
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--dourado)", margin: "0 0 10px" }}>
             {product.collection || "Signature"}
           </p>
-          <h2 style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontWeight: 400, fontSize: 28, color: "var(--azul)", margin: "0 0 16px", lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontWeight: 400, fontSize: 26, color: "var(--azul)", margin: "0 0 6px", lineHeight: 1.2 }}>
             {title}
           </h2>
+          {subtitle && (
+            <p style={{ fontSize: 13, color: "var(--azul-claro)", margin: "0 0 20px", letterSpacing: "0.04em" }}>
+              {subtitle}
+            </p>
+          )}
+
+          <p style={{ fontSize: 26, fontWeight: 700, color: "var(--terracota)", margin: "0 0 20px" }}>
+            {product.salePrice.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+          </p>
 
           {/* detalhes */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 20, borderTop: "1px solid var(--linha)", borderBottom: "1px solid var(--linha)", padding: "14px 0" }}>
-            {product.material && <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-              <span style={{ color: "#999", fontWeight: 500 }}>Material</span>
-              <span style={{ color: "var(--texto)" }}>{product.material}</span>
-            </div>}
-            {product.stone && <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-              <span style={{ color: "#999", fontWeight: 500 }}>Pedra</span>
-              <span style={{ color: "var(--texto)" }}>{product.stone}</span>
-            </div>}
+          <div style={{ borderTop: "1px solid var(--linha)", borderBottom: "1px solid var(--linha)", padding: "14px 0", marginBottom: 20, display: "flex", flexDirection: "column", gap: 8 }}>
+            {product.material && (
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                <span style={{ color: "#aaa" }}>Material</span>
+                <span style={{ color: "var(--texto)", fontWeight: 500 }}>{product.material}</span>
+              </div>
+            )}
+            {product.stone && (
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
+                <span style={{ color: "#aaa" }}>Pedra</span>
+                <span style={{ color: "var(--texto)", fontWeight: 500 }}>{product.stone}</span>
+              </div>
+            )}
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-              <span style={{ color: "#999", fontWeight: 500 }}>Disponibilidade</span>
-              <span style={{ color: product.stock > 0 ? "#2a7a4b" : "var(--terracota)", fontWeight: 600 }}>
+              <span style={{ color: "#aaa" }}>Disponibilidade</span>
+              <span style={{ color: product.stock > 0 ? "#2a7a4b" : "#b05a1e", fontWeight: 600 }}>
                 {product.stock > 0 ? "Disponível" : "Consulte"}
               </span>
             </div>
           </div>
 
-          <p style={{ fontSize: 24, fontWeight: 700, color: "var(--terracota)", margin: "0 0 8px" }}>
-            {product.salePrice.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
-          </p>
-          <p style={{ fontSize: 12, color: "#aaa", margin: "0 0 24px" }}>
-            Tamanho e forma de envio confirmados no WhatsApp
-          </p>
+          {/* quantidade */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#aaa" }}>Qtd</span>
+            <div style={{ display: "flex", alignItems: "center", border: "1px solid rgba(0,0,0,0.12)", borderRadius: 3 }}>
+              <button onClick={() => setQty(q => Math.max(1, q - 1))} style={{ width: 32, height: 32, border: "none", background: "none", fontSize: 16, color: "#666" }}>−</button>
+              <span style={{ minWidth: 28, textAlign: "center", fontSize: 14, fontWeight: 600 }}>{qty}</span>
+              <button onClick={() => setQty(q => q + 1)} style={{ width: 32, height: 32, border: "none", background: "none", fontSize: 16, color: "#666" }}>+</button>
+            </div>
+          </div>
 
+          {/* CTAs */}
           <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 10 }}>
             <a
               href={waUrl}
               target="_blank"
               rel="noreferrer"
               style={{
-                display: "block",
-                textAlign: "center",
-                padding: "14px 24px",
-                background: "var(--azul)",
-                color: "#fff",
-                fontWeight: 600,
-                fontSize: 13,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                borderRadius: 3,
+                display: "block", textAlign: "center", padding: "14px 24px",
+                background: "var(--azul)", color: "#fff",
+                fontWeight: 600, fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase",
+                textDecoration: "none", borderRadius: 3,
               }}
             >
               Reservar pelo WhatsApp
             </a>
             <button
-              onClick={() => { add(product); onClose(); }}
+              onClick={handleAdd}
               style={{
-                padding: "11px 24px",
-                border: `1.5px solid ${inCart ? "var(--terracota)" : "rgba(37,37,37,0.2)"}`,
-                background: "transparent",
-                color: inCart ? "var(--terracota)" : "#888",
-                fontWeight: 600,
-                fontSize: 12,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                borderRadius: 3,
+                padding: "12px 24px",
+                border: `1.5px solid ${added ? "var(--terracota)" : inCart ? "rgba(37,37,37,0.2)" : "var(--azul)"}`,
+                background: added ? "rgba(220,134,77,0.08)" : "transparent",
+                color: added ? "var(--terracota)" : inCart ? "#aaa" : "var(--azul)",
+                fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", borderRadius: 3,
+                transition: "all 0.2s",
               }}
             >
-              {inCart ? "Já na seleção — adicionar outra" : "Adicionar à seleção"}
+              {added ? "Adicionado à seleção ✓" : inCart ? "Adicionar outra unidade" : "Adicionar à seleção"}
             </button>
           </div>
 
-          <p style={{ fontSize: 11, color: "#bbb", textAlign: "center", marginTop: 16 }}>
-            Cuidados e garantia informados no atendimento
+          <p style={{ fontSize: 11, color: "#ccc", textAlign: "center", marginTop: 14, lineHeight: 1.5 }}>
+            Tamanho, envio e pagamento confirmados no WhatsApp
           </p>
         </div>
       </div>
