@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import type { Product, StoreContent } from "../lib/types";
 import { useCart } from "../lib/cart";
-import { whatsappLink } from "../lib/api";
 
-export function ProductModal({ product, content, onClose }: { product: Product; content: StoreContent; onClose: () => void }) {
+export function ProductModal({ product, onClose }: { product: Product; content: StoreContent; onClose: () => void }) {
   const [activeImage, setActiveImage] = useState(0);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
@@ -35,8 +34,6 @@ export function ProductModal({ product, content, onClose }: { product: Product; 
     setTimeout(() => setAdded(false), 2000);
   }
 
-  const waMsg = `Olá! Tenho interesse na peça *${title}* da Contreraz. Poderia me informar sobre disponibilidade e tamanho?`;
-  const waUrl = whatsappLink(content?.whatsappNumber, waMsg);
   const subtitle = [product.material, product.stone].filter(Boolean).join(" · ");
 
   return (
@@ -143,32 +140,18 @@ export function ProductModal({ product, content, onClose }: { product: Product; 
           </div>
 
           {/* CTAs */}
-          <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 10 }}>
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "block", textAlign: "center", padding: "14px 24px",
-                background: "var(--azul)", color: "#fff",
-                fontWeight: 600, fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase",
-                textDecoration: "none", borderRadius: 3,
-              }}
-            >
-              Reservar pelo WhatsApp
-            </a>
+          <div style={{ marginTop: "auto" }}>
             <button
               onClick={handleAdd}
               style={{
-                padding: "12px 24px",
-                border: `1.5px solid ${added ? "var(--terracota)" : inCart ? "rgba(37,37,37,0.2)" : "var(--azul)"}`,
-                background: added ? "rgba(220,134,77,0.08)" : "transparent",
-                color: added ? "var(--terracota)" : inCart ? "#aaa" : "var(--azul)",
-                fontWeight: 600, fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", borderRadius: 3,
-                transition: "all 0.2s",
+                width: "100%", padding: "14px 24px",
+                background: added ? "var(--terracota)" : "var(--azul)",
+                color: "#fff",
+                fontWeight: 700, fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase",
+                border: "none", borderRadius: 3, transition: "background 0.2s",
               }}
             >
-              {added ? "Adicionado à seleção ✓" : inCart ? "Adicionar outra unidade" : "Adicionar à seleção"}
+              {added ? "Adicionado ✓" : inCart ? "Adicionar outra unidade" : "Adicionar à seleção"}
             </button>
           </div>
 
