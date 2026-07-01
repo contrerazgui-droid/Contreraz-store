@@ -14,8 +14,8 @@ export function Footer({ content }: { content: StoreContent }) {
           {/* col 1: logo + descrição */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {logoUrl && (
-              <div style={{ width: 72, height: 72, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6 }}>
-                <img src={logoUrl} alt="Contreraz" style={{ width: 56, height: 56, objectFit: "contain" }} />
+              <div style={{ display: "inline-flex", background: "#fff", padding: "10px 14px", borderRadius: 6 }}>
+                <img src={logoUrl} alt="Contreraz" style={{ height: 52, width: "auto", display: "block" }} />
               </div>
             )}
             <p style={{ fontFamily: "var(--font-signature)", fontSize: 34, color: "#fff", margin: 0, lineHeight: 1 }}>

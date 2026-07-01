@@ -26,7 +26,7 @@ export function Hero({ content }: { content: StoreContent }) {
         pointerEvents: "none",
       }}>
         {logoUrl ? (
-          <img src={logoUrl} alt="Contreraz" style={{ height: 80, opacity: 0.9 }} />
+          <img src={logoUrl} alt="Contreraz" style={{ height: 96, width: "auto", opacity: 0.92 }} />
         ) : (
           <p style={{
             fontFamily: "var(--font-signature)", fontSize: 52,
