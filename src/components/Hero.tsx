@@ -30,7 +30,7 @@ export function Hero({ content }: { content: StoreContent }) {
       <div className="container" style={{ position: "relative", zIndex: 1, paddingBottom: 80, paddingTop: 120 }}>
         <div style={{ maxWidth: 680 }}>
           <span className="eyebrow eyebrow-light" style={{ marginBottom: 24, display: "flex" }}>
-            Primeira coleção · Rivieras
+            Rivieras · Contreraz
           </span>
 
           <h1 style={{
@@ -78,7 +78,7 @@ export function Hero({ content }: { content: StoreContent }) {
         backdropFilter: "blur(4px)",
       }}>
         <div className="container hero-strip" style={{ display: "flex", alignItems: "center", gap: 32, padding: "18px 24px", flexWrap: "wrap" }}>
-          {["Primeira coleção · Rivieras", "Curadoria limitada", "Atendimento direto"].map((item, i) => (
+          {["Rivieras", "Curadoria limitada", "Atendimento direto"].map((item, i) => (
             <p key={i} style={{ margin: 0, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)" }}>
               {item}
             </p>

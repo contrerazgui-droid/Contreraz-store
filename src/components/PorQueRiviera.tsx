@@ -12,7 +12,7 @@ export function PorQueRiviera() {
       <div className="container">
         <div style={{ textAlign: "center", marginBottom: 56 }}>
           <span className="eyebrow" style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
-            Primeira coleção
+            Rivieras
           </span>
           <h2 style={{
             fontFamily: "var(--font-display)",

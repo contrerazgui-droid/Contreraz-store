@@ -11,7 +11,7 @@ export function Vitrine({ products, content }: { products: Product[]; content: S
       <div className="container">
         <div style={{ textAlign: "center", marginBottom: 52 }}>
           <span className="eyebrow" style={{ marginBottom: 16, display: "flex", justifyContent: "center" }}>
-            Primeira coleção
+            Rivieras
           </span>
           <h2 style={{
             fontFamily: "var(--font-display)",
@@ -22,7 +22,7 @@ export function Vitrine({ products, content }: { products: Product[]; content: S
             margin: "0 0 12px",
             lineHeight: 1.2,
           }}>
-            Rivieras Signature
+            Rivieras
           </h2>
           <p style={{ fontSize: 14, color: "#999", maxWidth: 400, margin: "0 auto" }}>
             Cada peça é nomeada e numerada. Curadoria limitada — confirme disponibilidade no WhatsApp.
