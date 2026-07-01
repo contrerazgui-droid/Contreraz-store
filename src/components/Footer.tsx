@@ -44,14 +44,16 @@ export function Footer({ content }: { content: StoreContent }) {
               Contato
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <a
-                href="https://instagram.com/contreraz"
-                target="_blank"
-                rel="noreferrer"
-                style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}
-              >
-                @contreraz
-              </a>
+              {content?.instagramUrl && (
+                <a
+                  href={content.instagramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}
+                >
+                  @{content.instagramUrl.replace(/.*instagram\.com\//, "").replace(/\/$/, "")}
+                </a>
+              )}
               <a
                 href={waUrl}
                 target="_blank"

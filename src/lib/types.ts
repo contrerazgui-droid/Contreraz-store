@@ -28,4 +28,5 @@ export type StoreContent = {
   ogImageUrl: string | null;
   seoTitle: string | null;
   seoDescription: string | null;
+  instagramUrl: string | null;
 } | null;
