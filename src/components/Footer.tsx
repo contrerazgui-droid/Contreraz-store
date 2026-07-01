@@ -3,23 +3,79 @@ import { whatsappLink } from "../lib/api";
 
 export function Footer({ content }: { content: StoreContent }) {
   const waUrl = whatsappLink(content?.whatsappNumber, content?.whatsappDefaultMessage || "Olá, quero conhecer as rivieras da Contreraz.");
+  const logoUrl = content?.logoUrl;
 
   return (
-    <footer style={{ padding: "48px 24px 32px", background: "var(--azul)" }}>
-      <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
-        <p style={{ fontFamily: "var(--font-signature)", fontSize: 36, color: "#fff", margin: 0, lineHeight: 1 }}>
-          Contreraz
-        </p>
-        <div style={{ display: "flex", gap: 28, flexWrap: "wrap", justifyContent: "center" }}>
-          <a href="#vitrine" style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", textDecoration: "none", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>Catálogo</a>
-          <a href="#como-comprar" style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", textDecoration: "none", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>Como comprar</a>
-          <a href="#faq" style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", textDecoration: "none", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>Dúvidas</a>
-          <a href={waUrl} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", textDecoration: "none", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase" }}>WhatsApp</a>
+    <footer style={{ background: "var(--azul)", padding: "64px 24px 0" }}>
+      <div className="container">
+        {/* grid principal */}
+        <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr 1fr", gap: 48, paddingBottom: 48 }}>
+
+          {/* col 1: logo + descrição */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {logoUrl && (
+              <div style={{ width: 72, height: 72, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6 }}>
+                <img src={logoUrl} alt="Contreraz" style={{ width: 56, height: 56, objectFit: "contain" }} />
+              </div>
+            )}
+            <p style={{ fontFamily: "var(--font-signature)", fontSize: 34, color: "#fff", margin: 0, lineHeight: 1 }}>
+              Contreraz
+            </p>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", lineHeight: 1.7, margin: 0, maxWidth: 300 }}>
+              Acessórios autorais de inspiração mediterrânea. Semijoias selecionadas em edições pequenas, com nome de cidade e raiz ibérica.
+            </p>
+          </div>
+
+          {/* col 2: navegar */}
+          <div>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--dourado)", margin: "0 0 20px" }}>
+              Navegar
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <a href="#vitrine" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Rivieras</a>
+              <a href="#como-comprar" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>Como comprar</a>
+              <a href="#faq" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>FAQ</a>
+            </div>
+          </div>
+
+          {/* col 3: contato */}
+          <div>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--dourado)", margin: "0 0 20px" }}>
+              Contato
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <a
+                href="https://instagram.com/contreraz"
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}
+              >
+                @contreraz
+              </a>
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}
+              >
+                WhatsApp
+              </a>
+              <a href="#faq" style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
+                Cuidados com a peça
+              </a>
+            </div>
+          </div>
         </div>
-        <div style={{ width: 40, height: 1, background: "rgba(255,255,255,0.15)" }} />
-        <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", margin: 0, letterSpacing: "0.08em" }}>
-          © {new Date().getFullYear()} Contreraz · Todas as peças passam por conferência antes do envio.
-        </p>
+
+        {/* rodapé inferior */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "20px 0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+          <p style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontWeight: 400, fontSize: 13, color: "rgba(255,255,255,0.4)", margin: 0 }}>
+            De él, por él, y para él. (Ro. 11:36)
+          </p>
+          <p style={{ fontSize: 11, color: "rgba(255,255,255,0.35)", margin: 0, letterSpacing: "0.06em" }}>
+            © {new Date().getFullYear()} Contreraz · Todos os direitos reservados
+          </p>
+        </div>
       </div>
     </footer>
   );
